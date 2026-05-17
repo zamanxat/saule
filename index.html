@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Бастауыш білімдегі педагогикалық технологиялар</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== VARIABLES ===== */
+    :root {
+      --cream:       #f5f1e8;
+      --cream-2:     #ede7d8;
+      --text:        #201a10;
+      --muted:       #5a4635;
+      --accent:      #7a4f24;
+      --gold:        #b08d55;
+      --topic1:      #155c3c;
+      --topic1-dark: #0d3d28;
+      --topic2:      #6b3c30;
+      --topic2-dark: #4a291f;
+      --line:        rgba(32,26,16,.1);
+      --logo-clear:  5rem;
+      --slide-h:     100dvh;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+    html { height: 100%; overflow: hidden; scroll-behavior: auto }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide-copy__body,
+      .slide-hero__inner { transition: none !important; opacity: 1 !important; transform: none !important }
+      .slides-track      { transition: none !important }
+    }
+
+    body {
+      font-family: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow: hidden;
+      height: 100%;
+    }
+
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px }
+    a:hover { color: #5c3d1a }
+    b { font-weight: 700; color: var(--text) }
+
+    /* ===== VIEWPORT ===== */
+    .slides-viewport {
+      position: fixed; inset: 0; z-index: 1; overflow: hidden;
+    }
+    .slides-viewport::before {
+      content: ""; position: fixed; top: 0; left: 0; right: 0; height: 4px;
+      z-index: 55; pointer-events: none;
+      background: linear-gradient(90deg, var(--topic1) 0%, var(--gold) 45%, var(--topic2) 100%);
+    }
+
+    .slides-track {
+      display: flex; flex-direction: column; will-change: transform;
+      transition: transform .82s cubic-bezier(.22,1,.32,1);
+    }
+    .slides-track--no-motion { transition: none !important }
+
+    /* ===== SLIDE BASE ===== */
+    .slide {
+      flex: 0 0 var(--slide-h);
+      height: var(--slide-h); min-height: var(--slide-h);
+      width: 100%; position: relative; isolation: isolate; overflow: hidden;
+      background: var(--cream);
+    }
+
+    /* ===== HERO SLIDE ===== */
+    .slide--hero {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      align-items: stretch;
+    }
+
+    .slide-hero__panel {
+      position: relative; height: 100%;
+      display: flex; align-items: center;
+      padding:
+        max(clamp(2rem,5vw,4.5rem), var(--logo-clear))
+        clamp(2rem,5vw,4rem)
+        clamp(2rem,5vw,4.5rem);
+      background:
+        radial-gradient(ellipse 120% 90% at 10% 110%, rgba(21,92,60,.14) 0%, transparent 50%),
+        radial-gradient(ellipse 100% 80% at 90% -10%, rgba(176,141,85,.12) 0%, transparent 48%),
+        linear-gradient(160deg, #faf7f0 0%, var(--cream) 45%, var(--cream-2) 100%);
+      overflow: hidden;
+    }
+
+    .blob { position: absolute; border-radius: 63% 37% 48% 52% / 48% 42% 58% 52%; pointer-events: none }
+    .blob--1 {
+      width: min(130%,56rem); height: min(92%,52rem); top: -22%; left: -38%;
+      background: radial-gradient(ellipse at 35% 35%, #ddcfb8, #c9b896); opacity: .6;
+    }
+    .blob--2 {
+      width: 46%; height: 40%; bottom: -5%; right: -10%;
+      background: rgba(45,106,79,.1);
+      border-radius: 58% 42% 62% 38% / 44% 52% 48% 56%;
+    }
+    .slide-hero__panel::after {
+      content: ""; position: absolute; top: 8%; right: 0; width: 1px; height: 72%;
+      background: linear-gradient(180deg, transparent, rgba(176,141,85,.3), transparent);
+    }
+
+    .slide-hero__inner {
+      position: relative; z-index: 1; max-width: min(44rem,100%);
+      opacity: .3; transform: translateY(24px);
+      transition: opacity .65s cubic-bezier(.22,1,.36,1) .1s, transform .68s cubic-bezier(.22,1,.36,1) .1s;
+    }
+    .slide.slide--inview .slide-hero__inner { opacity: 1; transform: translateY(0) }
+
+    .slide-hero__inner h1 {
+      font-family: "Noto Serif", serif;
+      font-size: clamp(2.05rem, 5vw, 3.9rem);
+      line-height: 1.08; color: var(--text); font-weight: 700;
+      margin-bottom: 1.2rem; letter-spacing: -.025em;
+    }
+    .slide-hero__inner h1::after {
+      content: ""; display: block; width: min(8rem,40%); height: 3px;
+      margin-top: 1rem; border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold), rgba(176,141,85,.08));
+    }
+    .sub {
+      font-size: 1.08rem; color: var(--muted);
+      max-width: 40rem; margin-bottom: 1.6rem; line-height: 1.72;
+    }
+    .hero-author {
+      margin-top: 1.2rem; padding-top: 1.05rem;
+      border-top: 1px solid var(--line);
+      font-size: .93rem; line-height: 1.72; color: var(--muted);
+    }
+    .hero-author strong { color: var(--text); font-weight: 600 }
+
+    .slide-figure--hero {
+      margin: 0; position: relative; height: 100%; overflow: hidden;
+      clip-path: polygon(7% 0%,100% 0%,100% 100%,7% 100%,0% 80%,4% 58%,0% 34%,3% 12%);
+      filter: drop-shadow(-14px 0 36px rgba(32,26,16,.12));
+    }
+    .slide-figure--hero::before {
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(100deg, rgba(245,241,232,.2) 0%, transparent 40%),
+        linear-gradient(180deg, transparent 55%, rgba(32,26,16,.1) 100%);
+    }
+    .slide-figure--hero img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02) }
+
+    /* ===== SPLIT SLIDES ===== */
+    .slide--split {
+      display: grid;
+      grid-template-columns: 1.75fr 1fr;
+      align-items: stretch; height: 100%;
+    }
+    .slide--split .slide-copy  { order: 1 }
+    .slide--split .slide-figure {
+      order: 2; margin: 0; position: relative; height: 100%; overflow: hidden;
+      clip-path: polygon(7% 0%,100% 0%,100% 100%,7% 100%,0% 82%,5% 58%,0% 34%,4% 12%);
+      filter: drop-shadow(-12px 0 32px rgba(32,26,16,.11));
+    }
+    .slide--split .slide-figure::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background: linear-gradient(90deg, rgba(0,0,0,.14) 0%, transparent 40%);
+    }
+    .slide--split .slide-figure img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.04) }
+
+    .photo-credit {
+      position: absolute; bottom: .6rem; left: .7rem; z-index: 2;
+      font-size: .58rem; color: rgba(255,255,255,.85); line-height: 1.3;
+      text-shadow: 0 1px 10px rgba(0,0,0,.9);
+    }
+
+    /* ===== SLIDE COPY PANEL ===== */
+    .slide-copy {
+      height: 100%; display: flex; flex-direction: column;
+      align-items: stretch; justify-content: flex-start;
+      padding:
+        max(clamp(1.3rem,3vmin,2.1rem), var(--logo-clear))
+        clamp(1.6rem,4.5vw,4rem)
+        clamp(1.4rem,3vmin,2.2rem)
+        clamp(1.6rem,4.5vw,4rem);
+      position: relative; min-height: 0; overflow: hidden;
+    }
+    .slide--topic1 .slide-copy {
+      background: linear-gradient(160deg, #f2efe5 0%, #dde9e3 55%, #c8dbd4 100%);
+      box-shadow: inset 6px 0 0 var(--topic1);
+    }
+    .slide--topic2 .slide-copy {
+      background: linear-gradient(160deg, #f2efe5 0%, #e8dbd2 55%, #d9c5b8 100%);
+      box-shadow: inset 6px 0 0 var(--topic2);
+    }
+    .slide--diagram-slide .slide-copy {
+      background: linear-gradient(160deg, #f4f0e6 0%, #e8e0d0 55%, #d8cdb8 100%);
+      box-shadow: inset 6px 0 0 var(--gold);
+    }
+
+    .slide-copy__body {
+      flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; width: 100%;
+      opacity: .3; transform: translateY(22px);
+      transition: opacity .62s cubic-bezier(.22,1,.36,1) .1s, transform .64s cubic-bezier(.22,1,.36,1) .1s;
+    }
+    .slide.slide--inview .slide-copy__body { opacity: 1; transform: translateY(0) }
+
+    .slide-copy--scroll { overflow: hidden; -webkit-overflow-scrolling: touch }
+    .slide-copy--scroll .slide-copy__body {
+      flex: 1 1 auto; min-height: 0;
+      overflow-y: auto; overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .slide-copy__body > .source {
+      margin-top: auto; margin-bottom: 0; padding-top: 1.1rem; flex-shrink: 0;
+    }
+
+    /* ===== BADGE ===== */
+    .badge {
+      display: inline-flex; align-items: center; gap: .55rem;
+      font-size: .73rem; letter-spacing: .11em; text-transform: uppercase;
+      font-weight: 700; margin-bottom: .9rem;
+    }
+    .badge::before {
+      content: ""; width: 30px; height: 2.5px;
+      background: linear-gradient(90deg, currentColor, transparent); border-radius: 2px;
+    }
+    .badge--teal   { color: var(--topic1) }
+    .badge--violet { color: var(--topic2) }
+    .badge--gold   { color: #9a6b3d }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2 {
+      font-family: "Noto Serif", serif;
+      font-weight: 700; line-height: 1.1;
+      margin-bottom: 1rem; letter-spacing: -.02em;
+    }
+    .slide-copy__body h2 {
+      font-size: clamp(1.9rem, 4.3vmin, 3.2rem);
+      line-height: 1.12; padding-bottom: .8rem; margin-bottom: 1.1rem; position: relative;
+    }
+    .slide-copy__body h2::after {
+      content: ""; position: absolute; left: 0; bottom: 0;
+      width: min(7.5rem,55%); height: 2.5px; border-radius: 3px;
+      background: linear-gradient(90deg, var(--gold), rgba(176,141,85,.08));
+    }
+
+    p, li { font-size: 1.07rem; line-height: 1.83; color: #342a1c }
+    p + p  { margin-top: .86rem }
+    ul { margin: .8rem 0 0 1.1rem }
+    li + li { margin-top: .46rem }
+    li::marker            { color: #9a6b3d }
+    .slide--topic1 li::marker { color: var(--topic1) }
+    .slide--topic2 li::marker { color: var(--topic2) }
+
+    .source {
+      margin-top: 0; padding-top: 1rem; border-top: 1px solid var(--line);
+      font-size: .81rem; color: var(--muted); line-height: 1.56;
+    }
+    .source strong { color: var(--accent); font-weight: 600 }
+
+    /* ===== TABLE ===== */
+    .table-wrap {
+      width: 100%; margin: .72rem 0 .42rem; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      border-radius: .55rem; border: 1px solid rgba(32,26,16,.13);
+      background: rgba(255,252,246,.72);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.78);
+    }
+    .data-table {
+      width: 100%; min-width: 260px; border-collapse: collapse;
+      font-size: .92rem; line-height: 1.53;
+    }
+    .data-table th,
+    .data-table td {
+      border: 1px solid rgba(32,26,16,.12);
+      padding: .46rem .58rem; text-align: left; vertical-align: top;
+    }
+    .data-table thead th {
+      font-weight: 700; font-size: .79rem; letter-spacing: .04em;
+      text-transform: uppercase; color: var(--text);
+    }
+    .slide--topic1       .data-table thead th { background: rgba(21,92,60,.13);  border-bottom: 2px solid rgba(21,92,60,.38) }
+    .slide--topic2       .data-table thead th { background: rgba(107,60,48,.11); border-bottom: 2px solid rgba(107,60,48,.35) }
+    .slide--diagram-slide .data-table thead th { background: rgba(176,141,85,.14); border-bottom: 2px solid rgba(176,141,85,.35) }
+    .data-table tbody tr:nth-child(even) td { background: rgba(255,252,246,.45) }
+    .data-table td:first-child { font-weight: 600; color: #2a2016; max-width: 38% }
+
+    /* ===== LOGO ===== */
+    .brand-logo {
+      position: fixed; top: clamp(.45rem,1.4vh,.85rem); left: clamp(.45rem,1.4vw,.9rem);
+      z-index: 50; display: block; line-height: 0;
+      background: rgba(245,241,232,.94); border-radius: .45rem;
+      padding: .22rem .36rem;
+      box-shadow: 0 4px 16px rgba(32,26,16,.07); border: 1px solid rgba(32,26,16,.07);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .brand-logo img {
+      display: block;
+      height: clamp(1.55rem,4vmin,2.15rem);
+      width: auto; max-width: min(160px,34vw); object-fit: contain;
+    }
+
+    /* ===== COUNTER ===== */
+    .slide-counter {
+      position: fixed; right: clamp(.7rem,2vw,1.25rem); bottom: clamp(.65rem,1.6vh,1rem);
+      z-index: 45; font-size: .73rem; letter-spacing: .18em; color: var(--muted);
+      background: rgba(245,241,232,.88); border: 1px solid rgba(32,26,16,.08);
+      border-radius: 999px; padding: .3rem .72rem;
+      box-shadow: 0 4px 14px rgba(32,26,16,.06);
+      pointer-events: none; user-select: none;
+    }
+    .slide-counter strong { color: var(--text); font-weight: 700 }
+
+    /* ===== ARROWS ===== */
+    .slide-arrows { position: fixed; z-index: 40; inset: 0; pointer-events: none }
+    .slide-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); pointer-events: auto;
+      width: 3rem; height: 3rem; border-radius: 50%;
+      border: 1px solid rgba(176,141,85,.3);
+      background: linear-gradient(145deg, rgba(245,241,232,.96), rgba(240,234,220,.92));
+      box-shadow: 0 6px 26px rgba(32,26,16,.1);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text);
+      transition: transform .22s, box-shadow .22s, border-color .22s, opacity .2s;
+    }
+    .slide-arrow:hover:not(:disabled) {
+      border-color: rgba(122,79,36,.5);
+      transform: translateY(-50%) scale(1.07);
+      box-shadow: 0 10px 32px rgba(32,26,16,.14);
+    }
+    .slide-arrow:disabled { opacity: .22; cursor: not-allowed }
+    .slide-arrow svg { width: 1.4rem; height: 1.4rem }
+    .slide-arrow--prev { left:  clamp(.65rem,2vw,1.35rem) }
+    .slide-arrow--next { right: clamp(.65rem,2vw,1.35rem) }
+
+    /* ===== DIAGRAM ===== */
+    .diagram-wrap {
+      overflow-x: auto; margin-top: .9rem; padding: .7rem;
+      border-radius: 1.2rem;
+      background: rgba(245,241,232,.65); border: 1px solid rgba(32,26,16,.07);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .diagram { min-width: 640px; width: 100% }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .slide--hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(34vh,40vh) 1fr;
+      }
+      .slide-figure--hero {
+        order: -1; height: 38vh; min-height: 38vh;
+        clip-path: polygon(0 0,100% 0,100% 94%,0 100%);
+        filter: drop-shadow(0 8px 24px rgba(32,26,16,.08));
+      }
+      .slide-hero__panel { min-height: 0; padding-bottom: 2rem }
+      .slide-hero__panel::after { display: none }
+      .slide--split {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(26vh,30vh) 1fr;
+      }
+      .slide--split .slide-figure {
+        order: -1; height: 27vh; min-height: 27vh;
+        clip-path: polygon(0 0,100% 0,100% 94%,0 100%); filter: none;
+      }
+      .slide--split .slide-copy {
+        padding-top: max(1.4rem, var(--logo-clear)); padding-bottom: 2rem;
+      }
+      .slide-arrow--prev { left:  .35rem }
+      .slide-arrow--next { right: .35rem }
+    }
+    @media (max-width: 640px) {
+      :root { --logo-clear: 4.4rem }
+      .brand-logo img { height: 1.4rem; max-width: 120px }
+      .slide-copy { padding-left: 1.1rem; padding-right: 1.1rem }
+      .diagram { min-width: 520px }
+      p, li { font-size: 1rem }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Logo ─── -->
+<a href="#" class="brand-logo" aria-label="Абай атындағы ҚазҰПУ">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/c/c4/%D2%9A%D0%B0%D0%B7%D2%B0%D0%9F%D0%A3_.jpg"
+    referrerpolicy="no-referrer"
+    width="160" height="50"
+    alt="ҚазҰПУ логосы"
+    loading="eager" decoding="async"
+  />
+</a>
+
+<!-- ─── Slide counter ─── -->
+<div class="slide-counter" id="slideCounter"><strong>01</strong> / 13</div>
+
+<!-- ─── Navigation arrows ─── -->
+<div class="slide-arrows">
+  <button class="slide-arrow slide-arrow--prev" id="btnPrev" aria-label="Алдыңғы слайд" disabled>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="slide-arrow slide-arrow--next" id="btnNext" aria-label="Келесі слайд">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+  </button>
+</div>
+
+<div class="slides-viewport">
+  <div class="slides-track" id="slidesTrack">
+
+    <!-- ═══════════════════════════════
+         SLIDE 0 · Тақырыптық бет
+    ════════════════════════════════ -->
+    <section class="slide slide--hero slide--inview" id="s0">
+      <div class="slide-hero__panel">
+        <div class="blob blob--1"></div>
+        <div class="blob blob--2"></div>
+        <div class="slide-hero__inner">
+          <h1>Бастауыш мектепте педагогикалық технологиялар және оқытуды ұйымдастыру формалары</h1>
+          <p class="sub">АКТ интеграциясы, ЖАТ дидактикасы және сынып–сабақ жүйесінің теориялық негіздері мен практикалық тәсілдері</p>
+          <div class="hero-author">
+            <strong>Орындаған:</strong> Бостандық Сәуле Бахтиярқызы<br />
+            <strong>Тексерген:</strong> Дүйсенова А. Т., п.ғ.к., доцент<br />
+            Абай атындағы ҚазҰПУ · Алматы, 2025
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure slide-figure--hero" aria-hidden="true">
+        <img
+          src="pres-hero.jpg"
+          width="900" height="1200"
+          alt="Қазақстандық бастауыш сынып мұғалімі мен оқушылары"
+          loading="eager" decoding="async"
+        />
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 1 · І тарау · 1/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic1" id="s1">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--teal">І тарау · 1/5</span>
+          <h2>Технологиялардың білімдегі орны</h2>
+          <p>XXI ғасырда бастауыш мектепте оқытуды ақпараттандыру — мемлекеттік білім саясатының басымдығы. Ы. Алтынсарин атындағы Ұлттық білім академиясының 2023 жылғы әдістемелік нұсқаулығы АКТ-ны педагогикалық технологиялармен үйлестіру оқушының шығармашылық белсенділігін, танымдық қызығушылығын арттыратынын және сабақтың нәтижелілігін жоғарылататынын дәлелдейді.</p>
+          <p>Қазіргі бастауыш сынып мұғалімі тек білім беруші ғана емес, оқушыны өзіндік іздену мен сын тұрғысынан ойлауға жетелейтін жетекші. Осы рөлді тиімді атқаруда педагогикалық технологиялар негізгі іс-құрал болып табылады.</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Ықпал ету саласы</th><th>Педагогикалық технологиялардың рөлі</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Оқу сапасы</td><td>Нәтижелілік артады; оқушы белсенді, зерттеуші болады</td></tr>
+                <tr><td>Мұғалім рөлі</td><td>Теорияны тәжірибемен ұштастырушы педагог-жетекші</td></tr>
+                <tr><td>Орта талабы</td><td>Жабдықталған кабинет, цифрлық кәсіби даярлық</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="source">
+            <strong>Дереккөз:</strong> Ы. Алтынсарин атындағы ҰБА, «Бастауыш білімде АКТ қолдану» әдістемелік нұсқаулығы, 2023
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-hero.jpg"
+          width="900" height="1200"
+          alt="Бастауыш сынып сабағы"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Қазақстандық бастауыш мектеп</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 2 · І тарау · 2/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic1" id="s2">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--teal">І тарау · 2/5</span>
+          <h2>АКТ қолданудың мақсаттары</h2>
+          <p>«Білім туралы» ҚР Заңы (2007) мен ҰБА 2023 нұсқаулығы бастауыш мектепте ақпараттық-коммуникациялық технологияларды енгізудің бес стратегиялық мақсатын белгілейді. Бұл мақсаттар сабақ жоспарлауда міндетті бағдар болып саналады:</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>№</th><th>Мақсат</th><th>Күтілетін нәтиже</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Танымдық белсенділікті дамыту</td><td>Оқушы іздейді, сұрайды, зерттейді</td></tr>
+                <tr><td>2</td><td>Ақпараттық сауаттылықты арттыру</td><td>Деректерді іздеп, сұрыптайды</td></tr>
+                <tr><td>3</td><td>Оқытуды жекелендіру</td><td>Әрбір оқушыға бейімделген тапсырма</td></tr>
+                <tr><td>4</td><td>Сабақты интерактивті ету</td><td>Ынтымақтастық пен диалог</td></tr>
+                <tr><td>5</td><td>Мұғалімнің кәсіби дамуы</td><td>Цифрлық құзыреттілік артады</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Аталған мақсаттарды іске асыру үшін мұғалім цифрлық мазмұнды педагогикалық тұрғыдан дұрыс таңдап, оны бастауыш жастағы оқушының танымдық ерекшелігіне сай пайдалануы тиіс.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> «Білім туралы» ҚР Заңы, 2007; ҰБА әдістемелік нұсқаулығы, 2023
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-ict.jpg"
+          width="900" height="1200"
+          alt="АКТ сабақта — балалар планшет пайдаланады"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Цифрлық оқыту</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 3 · І тарау · 3/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic1" id="s3">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--teal">І тарау · 3/5</span>
+          <h2>Инновациялық оқытуды енгізу кезеңдері</h2>
+          <p>Педагогикалық инновация бір сатыда емес, кезеңме-кезең іске асырылады. ҰБА нұсқаулығы бастауыш сыныпқа АКТ енгізудің төрт негізгі кезеңін ұсынады:</p>
+          <ul>
+            <li><b>1-кезең — Диагностика.</b> Сыныптың дайындық деңгейін, техникалық жабдықталуын және мұғалімнің цифрлық сауаттылығын бағалау.</li>
+            <li><b>2-кезең — Жоспарлау.</b> Нақты мақсат қою, педагогикалық модельді таңдау, АКТ-ны тақырыпқа сай іріктеу.</li>
+            <li><b>3-кезең — Іске асыру.</b> Интерактивті тақта, планшет, ашық білім беру платформаларын (Khan Academy, Bilimland) сабаққа кіріктіру.</li>
+            <li><b>4-кезең — Рефлексия.</b> Оқушы нәтижесін, АКТ-ның педагогикалық тиімділігін бағалап, болашақ сабаққа түзету енгізу.</li>
+          </ul>
+          <p>Тәжірибеде жиі қолданылатын педагогикалық модельдер: <b>«Аударылған сынып»</b>, <b>«Жоба негізіндегі оқыту»</b>, <b>«Ойын арқылы оқыту»</b>, <b>«Ынтымақтастық оқыту»</b>, <b>«Проблемалық оқыту»</b> және <b>«Дифференциалданған оқыту»</b>.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> ҰБА нұсқаулығы, 1-тарау, 2023
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-groups.jpg"
+          width="900" height="1200"
+          alt="Топтық инновациялық оқыту"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Ынтымақтастық оқыту</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 4 · І тарау · 4/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic1" id="s4">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--teal">І тарау · 4/5</span>
+          <h2>ЖАТ-тың дидактикалық негіздері</h2>
+          <p>Жаңа ақпараттық технологиялар (ЖАТ) — оқыту үдерісіне енгізілген компьютер, интернет, бағдарламалық қамтамасыз ету және цифрлық мазмұн жиынтығы. Дидактика тұрғысынан ЖАТ үш өлшем бойынша зерттеледі:</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Өлшем</th><th>Мазмұны</th><th>Бастауыштағы мысалдар</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Мазмұндық</td><td>Білімді цифрлық пішінде беру</td><td>Е-оқулық, интерактивті тапсырма</td></tr>
+                <tr><td>Процессуалдық</td><td>Оқушы–мұғалім–мазмұн өзара әрекеті</td><td>Онлайн-жаттығу, бейне сабақ</td></tr>
+                <tr><td>Ұйымдастырушылық</td><td>Оқу ортасын жобалау</td><td>Smart Board, Bilimland, Quizlet</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Мұғалімнің міндеті — ЖАТ-ты жай сурет немесе дыбыс ойнату емес, нақты дидактикалық мақсатқа бейімдеп пайдалану. Тек осындай тәсілде ғана АКТ шынайы педагогикалық мәнге ие болады және оқушының танымдық белсенділігін арттырады.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> ҰБА нұсқаулығы, 2023; Захарова И.Г. «Ақпараттық технологиялар білімде», 2008
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-ict.jpg"
+          width="900" height="1200"
+          alt="Цифрлық оқыту технологиялары"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">ЖАТ дидактикасы</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 5 · І тарау · 5/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic1" id="s5">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--teal">І тарау · 5/5</span>
+          <h2>Заңнамалық негіздер</h2>
+          <p>Қазақстан Республикасында бастауыш мектептегі АКТ интеграциясы мен оқытуды ұйымдастыру мемлекеттік деңгейде екі негізгі нормативтік актімен реттеледі:</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Нормативтік акт</th><th>Негізгі талаптар</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>«Білім туралы» ҚР Заңы, 2007 (27-бап)</td>
+                  <td>Білім мазмұнын жаңарту, АКТ-ны оқу үдерісіне кіріктіру міндетін белгілейді; оқытушының цифрлық сауаттылығы талап ретінде бекітілген</td>
+                </tr>
+                <tr>
+                  <td>МЖББС № 348, ҚР Білім министрлігі, 2022</td>
+                  <td>1–4-сынып оқушысының ақпараттық сауаттылық, функционалдық оқу және сандық дағды нәтижелерін нақты белгілейді</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>МЖББС талаптары бойынша 1–4-сынып оқушысы: ақпаратты цифрлық ортадан іздеп таба алуы, мұғалім жетекшілігімен цифрлық құралдарды пайдалана алуы және жобалық тапсырма орындай алуы тиіс. Бұл талаптар сабақ жоспарлауда міндетті түрде ескеріледі.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> ҚР Заңы «Білім туралы», 2007; МЖББС № 348, ҚР Білім және ғылым министрлігі, 2022
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-law.jpg"
+          width="900" height="1200"
+          alt="Заңнама — кітаптар мен Қазақстан туы"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Заңнамалық негіздер</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 6 · ІІ тарау · 1/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic2" id="s6">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--violet">ІІ тарау · 1/5</span>
+          <h2>Оқытуды ұйымдастыру формасының мәні</h2>
+          <p>Оқытуды ұйымдастыру формасы — мұғалім мен оқушылардың арасындағы өзара іс-әрекетті, уақытты және кеңістікті реттеудің тұрақты тәсілі. Дидактикада бұл ұғымды алғаш жүйелеген чех педагогы Ян Амос Коменский (1657) сынып-сабақ жүйесінің негізін қалады.</p>
+          <p>Оқыту формасы үш негізгі факторға байланысты анықталады:</p>
+          <ul>
+            <li><b>Оқушылар саны:</b> жеке, жұптық, топтық, фронталдық (жаппай)</li>
+            <li><b>Уақыт:</b> 1–2-сыныпта 35 минут, 3–4-сыныпта 40 минут</li>
+            <li><b>Кеңістік:</b> сынып бөлмесі, зертхана, далалық жағдай, онлайн-орта</li>
+          </ul>
+          <p>Тарихи даму тұрғысынан: Коменскийдің сынып-сабақ жүйесі (XVII ғ.) → К.Д. Ушинскийдің дидактикалық дамытуы (XIX ғ.) → қазіргі интерактивті және гибридтік формалар (XXI ғ.).</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> Коменский Я.А. «Ұлы дидактика», 1657; Педагогика: оқулық / Сластёнин В.А., 2002
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=900&q=80"
+          width="900" height="1200"
+          alt="Оқыту формасы — оқушы жазып отыр"
+          loading="lazy" decoding="async" referrerpolicy="no-referrer"
+        />
+        <figcaption class="photo-credit">Оқыту формалары</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 7 · ІІ тарау · 2/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic2" id="s7">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--violet">ІІ тарау · 2/5</span>
+          <h2>Оқыту формаларының жіктелуі</h2>
+          <p>Заманауи дидактикада оқыту формалары негізгі критерий — оқушылардың өзара іс-әрекет тәсілі мен мұғалімнің ұйымдастырушылық рөлі бойынша жіктеледі:</p>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Форма</th><th>Сипаты</th><th>Қолдану жері</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Фронталдық</td><td>Мұғалім бүкіл сыныппен жұмыс істейді</td><td>Жаңа тақырып, жалпы түсіндіру</td></tr>
+                <tr><td>Жеке (дербес)</td><td>Оқушы өз бетімен тапсырма орындайды</td><td>Бекіту, бақылау жұмысы</td></tr>
+                <tr><td>Жұптық</td><td>Екі оқушы бірлесіп жұмыс жасайды</td><td>Өзара тексеру, диалог</td></tr>
+                <tr><td>Топтық</td><td>3–6 оқушы бірге мәселені шешеді</td><td>Жоба, шығармашыл тапсырма</td></tr>
+                <tr><td>Гибридтік</td><td>Күндізгі + онлайн форматтар ұштасады</td><td>АКТ кіріктірілген сабақ</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Тиімді оқытуда мұғалім аталған формаларды кезекпен ауыстырып қолданады. Бір сабақта кемінде 2–3 форманы ұштастыру — педагогикалық ең жақсы тәжірибе ретінде бекітілген.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> Педагогика / Сластёнин В.А., 2002; ҰБА нұсқаулығы, 2023
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-groups.jpg"
+          width="900" height="1200"
+          alt="Топтық жұмыс формасы"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Топтық оқыту формасы</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 8 · ІІ тарау · 3/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic2" id="s8">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--violet">ІІ тарау · 3/5</span>
+          <h2>Сабақ — оқытудың негізгі формасы</h2>
+          <p>Сабақ — дидактиканың орталық бірлігі. Я.А. Коменский оны «білімнің ұяшығы» деп атаса, К.Д. Ушинский (1860-жж.) сабақтың үш бөлімді дидактикалық құрылымын негіздеді: <b>кіріспе — негізгі — қорытынды.</b></p>
+          <p>Бастауыш мектеп сабағының үш негізгі компоненті:</p>
+          <ul>
+            <li><b>Оқу мақсаты</b> — оқушы не үйренеді, не істей алатын болады</li>
+            <li><b>Дидактикалық мазмұн</b> — берілетін білім, қалыптасатын дағды</li>
+            <li><b>Оқыту әдісі</b> — мұғалім мен оқушының бірлескен іс-әрекеті</li>
+          </ul>
+          <p>Сабақ түрлері (ҚР МЖББС жіктеуі бойынша): <b>жаңа білімді меңгеру</b>, <b>білімді бекіту мен қолдану</b>, <b>қайталау-жинақтау</b>, <b>бақылау-тексеру</b>, <b>аралас (комбинирленген)</b>. Бастауышта аралас сабақ үлесі — 70%-дан астам.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> Коменский Я.А., 1657; Ушинский К.Д., 1869; ҚР МЖББС № 348, 2022
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-hero.jpg"
+          width="900" height="1200"
+          alt="Мұғалім сабақ жүргізіп отыр"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Негізгі оқыту формасы</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 9 · ІІ тарау · 4/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic2" id="s9">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--violet">ІІ тарау · 4/5</span>
+          <h2>Сабаққа қойылатын дидактикалық талаптар</h2>
+          <p>Заманауи бастауыш сабағы бес негізгі дидактикалық принципке сүйенуі тиіс:</p>
+          <ul>
+            <li><b>Ғылымилық:</b> оқу мазмұны ғылыми дәлелденген деректерге және МЖББС стандартына толық сәйкес болуы керек.</li>
+            <li><b>Қолжетімділік:</b> тапсырма оқушының даму деңгейіне — «жақын даму аймағына» (Л.С. Выготский) — сай жеткізілуі тиіс.</li>
+            <li><b>Жүйелілік:</b> тақырыптар бір-бірімен логикалық байланыста, реттілікте — «белгіліден — белгісізге» қағидасы бойынша беріледі.</li>
+            <li><b>Белсенділік:</b> оқушы тек тыңдаушы емес, іздеуші, сынаушы, жасаушы болуы керек.</li>
+            <li><b>Нәтижелілік:</b> сабақ соңында оқушының нақты үйренгені — білімі, дағдысы немесе іскерлігі — бағаланады.</li>
+          </ul>
+          <p>АКТ осы принциптерді іске асыруды жеңілдетеді: интерактивті тақта ғылымилықты, адаптивті платформалар жеке қолжетімділікті, цифрлық портфолио нәтижелілікті қамтамасыз етеді.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> Педагогика / Подласый И.П., 2009; Выготский Л.С., 1934
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-ict.jpg"
+          width="900" height="1200"
+          alt="Дидактикалық талаптар — интерактивті оқыту"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Дидактика принциптері</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 10 · ІІ тарау · 5/5
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic2" id="s10">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--violet">ІІ тарау · 5/5</span>
+          <h2>Сынып–сабақ жүйесінің ерекшеліктері</h2>
+          <p>Сынып-сабақ жүйесі — Я.А. Коменский негіздеген (1657), бүгінде де жаппай қолданылатын оқытуды ұйымдастыру моделі. ҚР МЖББС бойынша: 1–2-сыныпта сабақ ұзақтығы — 35 минут, 3–4-сыныпта — 40 минут.</p>
+          <p><b>Сынып-сабақ жүйесінің артықшылықтары:</b></p>
+          <ul>
+            <li>Оқушыларды бір мезгілде жаппай оқытуға мүмкіндік береді</li>
+            <li>Мазмұн логикалық реттілікпен, жүйелі беріледі</li>
+            <li>Мұғалімнің кәсіби ресурсын тиімді пайдалануға жол ашады</li>
+            <li>Оқушы ұжымдық жұмыс пен қарым-қатынас дағдыларын игереді</li>
+          </ul>
+          <p><b>Шектеулік:</b> оқушылардың жеке даму қарқынын ескеру қиын. <b>Шешімі:</b> АКТ арқылы дифференциалдау — жылдам оқушыға кеңейтілген тапсырма, баяуға бейнетүсіндірме, мұғалімге автоматты нәтиже талдауы.</p>
+          <div class="source">
+            <strong>Дереккөз:</strong> Коменский Я.А., 1657; ҰБА, 2023; ҚР МЖББС № 348, 2022
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=900&q=80"
+          width="900" height="1200"
+          alt="Сынып-сабақ жүйесі — сынып бөлмесі"
+          loading="lazy" decoding="async" referrerpolicy="no-referrer"
+        />
+        <figcaption class="photo-credit">Сынып–сабақ жүйесі</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 11 · Жүйелік сызба
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--diagram-slide" id="s11">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--gold">Жүйелік сызба</span>
+          <h2>Педагогикалық жүйенің байланыс моделі</h2>
+          <p>Төмендегі сызба бастауыш мектептегі педагогикалық технологиялар, оқыту формалары, заңнамалық негіздер және білім нәтижесінің өзара байланысын көрсетеді. Жүйенің орталығы — <b>мұғалім шеберлігі</b>, себебі барлық элементтерді ұйымдастырып, бағыттайтын — педагог.</p>
+          <div class="diagram-wrap">
+            <svg class="diagram" viewBox="0 0 720 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Center: Мұғалім -->
+              <rect x="270" y="138" width="180" height="76" rx="10" fill="rgba(176,141,85,0.2)" stroke="#b08d55" stroke-width="2"/>
+              <text x="360" y="168" text-anchor="middle" font-size="13" font-weight="700" fill="#201a10" font-family="Noto Sans, sans-serif">Мұғалім</text>
+              <text x="360" y="186" text-anchor="middle" font-size="11" fill="#5a4635" font-family="Noto Sans, sans-serif">шеберлігі</text>
+              <!-- Top: АКТ / Технологиялар -->
+              <rect x="260" y="18" width="200" height="62" rx="8" fill="rgba(21,92,60,0.11)" stroke="#155c3c" stroke-width="1.5"/>
+              <text x="360" y="42" text-anchor="middle" font-size="12" font-weight="600" fill="#155c3c" font-family="Noto Sans, sans-serif">Педагогикалық</text>
+              <text x="360" y="60" text-anchor="middle" font-size="12" fill="#155c3c" font-family="Noto Sans, sans-serif">технологиялар (АКТ)</text>
+              <line x1="360" y1="80" x2="360" y2="136" stroke="#155c3c" stroke-width="1.5" marker-end="url(#a1)"/>
+              <!-- Left: Оқыту формалары -->
+              <rect x="24" y="138" width="178" height="72" rx="8" fill="rgba(107,60,48,0.1)" stroke="#6b3c30" stroke-width="1.5"/>
+              <text x="113" y="168" text-anchor="middle" font-size="12" font-weight="600" fill="#6b3c30" font-family="Noto Sans, sans-serif">Оқыту</text>
+              <text x="113" y="186" text-anchor="middle" font-size="12" fill="#6b3c30" font-family="Noto Sans, sans-serif">формалары</text>
+              <line x1="202" y1="174" x2="268" y2="174" stroke="#6b3c30" stroke-width="1.5" marker-end="url(#a2)"/>
+              <!-- Right: Білім нәтижесі -->
+              <rect x="518" y="138" width="178" height="72" rx="8" fill="rgba(32,26,16,0.07)" stroke="rgba(32,26,16,0.28)" stroke-width="1.5"/>
+              <text x="607" y="168" text-anchor="middle" font-size="12" font-weight="600" fill="#201a10" font-family="Noto Sans, sans-serif">Білім</text>
+              <text x="607" y="186" text-anchor="middle" font-size="12" fill="#201a10" font-family="Noto Sans, sans-serif">нәтижесі</text>
+              <line x1="452" y1="174" x2="516" y2="174" stroke="rgba(32,26,16,0.38)" stroke-width="1.5" marker-end="url(#a3)"/>
+              <!-- Bottom: МЖББС -->
+              <rect x="260" y="278" width="200" height="62" rx="8" fill="rgba(176,141,85,0.13)" stroke="#b08d55" stroke-width="1.5"/>
+              <text x="360" y="302" text-anchor="middle" font-size="12" font-weight="600" fill="#7a4f24" font-family="Noto Sans, sans-serif">МЖББС / Заң</text>
+              <text x="360" y="320" text-anchor="middle" font-size="11" fill="#7a4f24" font-family="Noto Sans, sans-serif">талаптары</text>
+              <line x1="360" y1="277" x2="360" y2="216" stroke="#b08d55" stroke-width="1.5" marker-end="url(#a4)"/>
+              <defs>
+                <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#155c3c"/></marker>
+                <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6b3c30"/></marker>
+                <marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(32,26,16,0.5)"/></marker>
+                <marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#b08d55"/></marker>
+              </defs>
+            </svg>
+          </div>
+          <div class="source">
+            <strong>Дереккөз:</strong> ҰБА нұсқаулығы, 2023; ҚР МЖББС № 348, 2022
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80"
+          width="900" height="1200"
+          alt="Педагогикалық жүйе — кітаптар"
+          loading="lazy" decoding="async" referrerpolicy="no-referrer"
+        />
+        <figcaption class="photo-credit">Педагогикалық жүйе</figcaption>
+      </figure>
+    </section>
+
+    <!-- ═══════════════════════════════
+         SLIDE 12 · Қорытынды
+    ════════════════════════════════ -->
+    <section class="slide slide--split slide--topic1" id="s12">
+      <div class="slide-copy slide-copy--scroll">
+        <div class="slide-copy__body">
+          <span class="badge badge--teal">Қорытынды</span>
+          <h2>Негізгі тұжырымдар</h2>
+          <p>Бастауыш мектепте педагогикалық технологиялар мен АКТ интеграциясы — оқытудың нәтижелілігін арттырудың ғылыми дәлелденген жолы. Ы. Алтынсарин атындағы ҰБА нұсқаулығы, «Білім туралы» ҚР Заңы және МЖББС № 348 талаптары осы бағытты мемлекеттік деңгейде нормативтік тұрғыда бекітті.</p>
+          <p>Оқытуды ұйымдастыру формалары — сынып-сабақ жүйесінен гибридтік форматқа дейін — мұғалімнің педагогикалық шеберлігімен ғана нәтижелі болады. Заманауи педагог технологияны соқыр пайдаланбайды: дидактикалық мақсатқа сай таңдайды, принциптермен ұштастырады, нәтижесін бағалайды.</p>
+          <p>Болашақ бастауыш сынып мұғалімі — АКТ-ны игерген, оқытуды шығармашылықпен ұйымдастыра алатын, оқушы тұлғасын дамытуды басты мақсат тұтатын кәсіби маман. Осы зерттеудің негізгі тұжырымы да — дәл осы ұстанымды нығайту.</p>
+          <div class="source">
+            <strong>Дереккөздер:</strong> ҰБА нұсқаулығы, 2023 · «Білім туралы» ҚР Заңы, 2007 · МЖББС № 348, 2022 · Коменский Я.А., 1657 · Педагогика / Сластёнин В.А., 2002
+          </div>
+        </div>
+      </div>
+      <figure class="slide-figure" aria-hidden="true">
+        <img
+          src="pres-conclusion.jpg"
+          width="900" height="1200"
+          alt="Болашаққа бет алған оқушылар"
+          loading="lazy" decoding="async"
+        />
+        <figcaption class="photo-credit">Болашақ педагогтар</figcaption>
+      </figure>
+    </section>
+
+  </div><!-- /slides-track -->
+</div><!-- /slides-viewport -->
+
+<script>
+  (function () {
+    const track    = document.getElementById('slidesTrack');
+    const btnPrev  = document.getElementById('btnPrev');
+    const btnNext  = document.getElementById('btnNext');
+    const counter  = document.getElementById('slideCounter');
+    const slides   = Array.from(track.querySelectorAll('.slide'));
+    const total    = slides.length;
+    let active     = 0;
+    let isMoving   = false;
+
+    function pad2(n) { return String(n).padStart(2, '0') }
+
+    function setActiveSlide(idx, animate) {
+      if (idx < 0 || idx >= total) return;
+      if (!animate) track.classList.add('slides-track--no-motion');
+      else          track.classList.remove('slides-track--no-motion');
+
+      const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      track.style.transform = `translateY(${-idx * h}px)`;
+
+      slides[active].classList.remove('slide--inview');
+      active = idx;
+      slides[active].classList.add('slide--inview');
+
+      btnPrev.disabled = active === 0;
+      btnNext.disabled = active === total - 1;
+
+      counter.innerHTML = `<strong>${pad2(active + 1)}</strong> / ${pad2(total)}`;
+    }
+
+    function goTo(idx) {
+      if (isMoving || idx < 0 || idx >= total || idx === active) return;
+      isMoving = true;
+      setActiveSlide(idx, true);
+      setTimeout(() => { isMoving = false }, 900);
+    }
+
+    btnPrev.addEventListener('click', () => goTo(active - 1));
+    btnNext.addEventListener('click', () => goTo(active + 1));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goTo(active + 1) }
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp'  ) { e.preventDefault(); goTo(active - 1) }
+    });
+
+    let wheelAcc = 0, wheelTimer;
+    window.addEventListener('wheel', e => {
+      e.preventDefault();
+      clearTimeout(wheelTimer);
+      wheelAcc += e.deltaY;
+      wheelTimer = setTimeout(() => {
+        if (Math.abs(wheelAcc) > 40) goTo(wheelAcc > 0 ? active + 1 : active - 1);
+        wheelAcc = 0;
+      }, 60);
+    }, { passive: false });
+
+    let touchY = 0;
+    window.addEventListener('touchstart', e => { touchY = e.touches[0].clientY }, { passive: true });
+    window.addEventListener('touchend',   e => {
+      const diff = touchY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) > 45) goTo(diff > 0 ? active + 1 : active - 1);
+    }, { passive: true });
+
+    // Handle viewport resize
+    window.addEventListener('resize', () => {
+      track.classList.add('slides-track--no-motion');
+      const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      track.style.transform = `translateY(${-active * h}px)`;
+      setTimeout(() => track.classList.remove('slides-track--no-motion'), 50);
+    });
+
+    // Init
+    setActiveSlide(0, false);
+  })();
+</script>
+</body>
+</html>
