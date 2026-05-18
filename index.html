@@ -340,6 +340,34 @@
     }
     .diagram { min-width: 640px; width: 100% }
 
+    /* ===== FULL-WIDTH DIAGRAM ===== */
+    .slide--fulldiagram {
+      display: flex; align-items: stretch;
+    }
+    .fulldiagram-wrap {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      padding:
+        max(var(--logo-clear), 1.6rem)
+        clamp(1.4rem,4vw,3.5rem)
+        1.3rem;
+      background: linear-gradient(160deg, #f4f0e6 0%, #e8e0d0 55%, #d8cdb8 100%);
+      box-shadow: inset 6px 0 0 var(--gold);
+      overflow: hidden;
+    }
+    .fulldiagram-wrap .badge { margin-bottom: .6rem }
+    .fulldiagram-wrap h2 {
+      font-size: clamp(1.4rem, 3vmin, 2.2rem);
+      margin-bottom: .5rem; padding-bottom: .6rem;
+    }
+    .fulldiagram-canvas {
+      flex: 1 1 auto; min-height: 0;
+      overflow-x: auto; overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      display: flex; align-items: center;
+    }
+    .fulldiagram-canvas svg { width: 100%; min-width: 860px; max-height: 100%; height: auto }
+    .fulldiagram-wrap > .source { flex-shrink: 0; margin-top: .4rem }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .slide--hero {
@@ -417,7 +445,7 @@
           <p class="sub">АКТ интеграциясы, ЖАТ дидактикасы және сынып–сабақ жүйесінің теориялық негіздері мен практикалық тәсілдері</p>
           <div class="hero-author">
             <strong>Орындаған:</strong> Бостандық Сәуле Бахтиярқызы<br />
-            <strong>Тексерген:</strong> Дүйсенова А. Т., п.ғ.к., доцент<br />
+            <strong>Қабылдаған:</strong> Омарова Г. Ж.<br />
             Абай атындағы ҚазҰПУ · Алматы, 2025
           </div>
         </div>
@@ -794,62 +822,122 @@
     </section>
 
     <!-- ═══════════════════════════════
-         SLIDE 11 · Жүйелік сызба
+         SLIDE 11 · Жүйелік сызба (full-width)
     ════════════════════════════════ -->
-    <section class="slide slide--split slide--diagram-slide" id="s11">
-      <div class="slide-copy slide-copy--scroll">
-        <div class="slide-copy__body">
-          <span class="badge badge--gold">Жүйелік сызба</span>
-          <h2>Педагогикалық жүйенің байланыс моделі</h2>
-          <p>Төмендегі сызба бастауыш мектептегі педагогикалық технологиялар, оқыту формалары, заңнамалық негіздер және білім нәтижесінің өзара байланысын көрсетеді. Жүйенің орталығы — <b>мұғалім шеберлігі</b>, себебі барлық элементтерді ұйымдастырып, бағыттайтын — педагог.</p>
-          <div class="diagram-wrap">
-            <svg class="diagram" viewBox="0 0 720 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Center: Мұғалім -->
-              <rect x="270" y="138" width="180" height="76" rx="10" fill="rgba(176,141,85,0.2)" stroke="#b08d55" stroke-width="2"/>
-              <text x="360" y="168" text-anchor="middle" font-size="13" font-weight="700" fill="#201a10" font-family="Noto Sans, sans-serif">Мұғалім</text>
-              <text x="360" y="186" text-anchor="middle" font-size="11" fill="#5a4635" font-family="Noto Sans, sans-serif">шеберлігі</text>
-              <!-- Top: АКТ / Технологиялар -->
-              <rect x="260" y="18" width="200" height="62" rx="8" fill="rgba(21,92,60,0.11)" stroke="#155c3c" stroke-width="1.5"/>
-              <text x="360" y="42" text-anchor="middle" font-size="12" font-weight="600" fill="#155c3c" font-family="Noto Sans, sans-serif">Педагогикалық</text>
-              <text x="360" y="60" text-anchor="middle" font-size="12" fill="#155c3c" font-family="Noto Sans, sans-serif">технологиялар (АКТ)</text>
-              <line x1="360" y1="80" x2="360" y2="136" stroke="#155c3c" stroke-width="1.5" marker-end="url(#a1)"/>
-              <!-- Left: Оқыту формалары -->
-              <rect x="24" y="138" width="178" height="72" rx="8" fill="rgba(107,60,48,0.1)" stroke="#6b3c30" stroke-width="1.5"/>
-              <text x="113" y="168" text-anchor="middle" font-size="12" font-weight="600" fill="#6b3c30" font-family="Noto Sans, sans-serif">Оқыту</text>
-              <text x="113" y="186" text-anchor="middle" font-size="12" fill="#6b3c30" font-family="Noto Sans, sans-serif">формалары</text>
-              <line x1="202" y1="174" x2="268" y2="174" stroke="#6b3c30" stroke-width="1.5" marker-end="url(#a2)"/>
-              <!-- Right: Білім нәтижесі -->
-              <rect x="518" y="138" width="178" height="72" rx="8" fill="rgba(32,26,16,0.07)" stroke="rgba(32,26,16,0.28)" stroke-width="1.5"/>
-              <text x="607" y="168" text-anchor="middle" font-size="12" font-weight="600" fill="#201a10" font-family="Noto Sans, sans-serif">Білім</text>
-              <text x="607" y="186" text-anchor="middle" font-size="12" fill="#201a10" font-family="Noto Sans, sans-serif">нәтижесі</text>
-              <line x1="452" y1="174" x2="516" y2="174" stroke="rgba(32,26,16,0.38)" stroke-width="1.5" marker-end="url(#a3)"/>
-              <!-- Bottom: МЖББС -->
-              <rect x="260" y="278" width="200" height="62" rx="8" fill="rgba(176,141,85,0.13)" stroke="#b08d55" stroke-width="1.5"/>
-              <text x="360" y="302" text-anchor="middle" font-size="12" font-weight="600" fill="#7a4f24" font-family="Noto Sans, sans-serif">МЖББС / Заң</text>
-              <text x="360" y="320" text-anchor="middle" font-size="11" fill="#7a4f24" font-family="Noto Sans, sans-serif">талаптары</text>
-              <line x1="360" y1="277" x2="360" y2="216" stroke="#b08d55" stroke-width="1.5" marker-end="url(#a4)"/>
-              <defs>
-                <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#155c3c"/></marker>
-                <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#6b3c30"/></marker>
-                <marker id="a3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="rgba(32,26,16,0.5)"/></marker>
-                <marker id="a4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#b08d55"/></marker>
-              </defs>
-            </svg>
-          </div>
-          <div class="source">
-            <strong>Дереккөз:</strong> ҰБА нұсқаулығы, 2023; ҚР МЖББС № 348, 2022
-          </div>
+    <section class="slide slide--fulldiagram" id="s11">
+      <div class="fulldiagram-wrap">
+        <span class="badge badge--gold">Жүйелік сызба</span>
+        <h2 style="font-family:'Noto Serif',serif;font-weight:700;letter-spacing:-.02em;position:relative;padding-bottom:.6rem;margin-bottom:.4rem;">
+          Оқытуды ұйымдастыру жүйесінің сызбасы
+          <span style="position:absolute;left:0;bottom:0;width:7rem;height:2.5px;border-radius:3px;background:linear-gradient(90deg,#b08d55,rgba(176,141,85,0.08));display:block;"></span>
+        </h2>
+
+        <div class="fulldiagram-canvas">
+          <svg viewBox="0 0 1380 554" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="rf" x="-8%" y="-8%" width="116%" height="116%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.042" numOctaves="4" seed="9" result="n"/>
+                <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
+              </filter>
+              <marker id="mA" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                <path d="M0,0.5 L0,6.5 L7,3.5 z" fill="rgba(32,26,16,0.4)"/>
+              </marker>
+            </defs>
+
+            <!-- ── CENTER → BRANCH CONNECTORS ── -->
+            <path d="M 690,243 C 690,196 690,152 690,104" stroke="rgba(32,26,16,0.3)" stroke-width="1.9" marker-end="url(#mA)" filter="url(#rf)"/>
+            <path d="M 784,258 C 855,228 932,192 985,160" stroke="rgba(32,26,16,0.3)" stroke-width="1.9" marker-end="url(#mA)" filter="url(#rf)"/>
+            <path d="M 784,292 C 855,326 932,357 985,374" stroke="rgba(32,26,16,0.3)" stroke-width="1.9" marker-end="url(#mA)" filter="url(#rf)"/>
+            <path d="M 690,307 C 690,355 690,406 690,450" stroke="rgba(32,26,16,0.3)" stroke-width="1.9" marker-end="url(#mA)" filter="url(#rf)"/>
+            <path d="M 596,292 C 525,326 448,357 395,374" stroke="rgba(32,26,16,0.3)" stroke-width="1.9" marker-end="url(#mA)" filter="url(#rf)"/>
+            <path d="M 596,258 C 525,228 448,192 395,160" stroke="rgba(32,26,16,0.3)" stroke-width="1.9" marker-end="url(#mA)" filter="url(#rf)"/>
+
+            <!-- ── BRANCH → SUB CONNECTORS ── -->
+            <path d="M 646,54 C 608,40 575,28 552,24" stroke="rgba(21,92,60,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 734,54 C 772,40 805,28 828,24" stroke="rgba(21,92,60,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 1136,140 C 1162,120 1188,104 1203,102" stroke="rgba(21,92,60,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <line x1="1152" y1="150" x2="1203" y2="150" stroke="rgba(21,92,60,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 1136,160 C 1162,178 1188,194 1203,198" stroke="rgba(21,92,60,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 1136,364 C 1162,346 1188,332 1203,330" stroke="rgba(107,60,48,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <line x1="1152" y1="380" x2="1203" y2="380" stroke="rgba(107,60,48,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 1136,396 C 1162,414 1188,428 1203,430" stroke="rgba(107,60,48,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 640,498 C 600,510 562,518 532,518" stroke="rgba(21,92,60,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <line x1="690" y1="498" x2="690" y2="514" stroke="rgba(21,92,60,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 740,498 C 780,510 818,518 848,518" stroke="rgba(21,92,60,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 246,364 C 220,346 194,332 179,330" stroke="rgba(107,60,48,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <line x1="229" y1="380" x2="179" y2="380" stroke="rgba(107,60,48,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 246,396 C 220,414 194,428 179,430" stroke="rgba(107,60,48,0.44)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 248,138 C 218,120 194,106 179,108" stroke="rgba(107,60,48,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+            <path d="M 248,162 C 218,180 194,190 179,190" stroke="rgba(107,60,48,0.42)" stroke-width="1.3" filter="url(#rf)"/>
+
+            <!-- ══ MAIN BOXES ══ -->
+            <rect x="596" y="243" width="188" height="64" rx="10" fill="rgba(176,141,85,0.26)" stroke="#b08d55" stroke-width="2.3" filter="url(#rf)"/>
+            <rect x="604" y="54"  width="172" height="50" rx="7"  fill="rgba(21,92,60,0.12)"   stroke="#155c3c" stroke-width="1.9" filter="url(#rf)"/>
+            <rect x="986" y="126" width="166" height="48" rx="7"  fill="rgba(21,92,60,0.11)"   stroke="#155c3c" stroke-width="1.9" filter="url(#rf)"/>
+            <rect x="986" y="356" width="166" height="48" rx="7"  fill="rgba(107,60,48,0.11)"  stroke="#6b3c30" stroke-width="1.9" filter="url(#rf)"/>
+            <rect x="604" y="450" width="172" height="48" rx="7"  fill="rgba(21,92,60,0.11)"   stroke="#155c3c" stroke-width="1.9" filter="url(#rf)"/>
+            <rect x="228" y="356" width="167" height="48" rx="7"  fill="rgba(107,60,48,0.11)"  stroke="#6b3c30" stroke-width="1.9" filter="url(#rf)"/>
+            <rect x="228" y="126" width="167" height="48" rx="7"  fill="rgba(107,60,48,0.11)"  stroke="#6b3c30" stroke-width="1.9" filter="url(#rf)"/>
+
+            <!-- ══ SUB BOXES ══ -->
+            <rect x="424"  y="6"   width="128" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="828"  y="6"   width="128" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="1203" y="84"  width="130" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="1203" y="132" width="130" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="1203" y="180" width="130" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="1203" y="312" width="130" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="1203" y="362" width="130" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="1203" y="412" width="130" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="404"  y="514" width="128" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="626"  y="514" width="128" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="848"  y="514" width="128" height="36" rx="5" fill="rgba(21,92,60,0.07)"   stroke="rgba(21,92,60,0.38)"   stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="51"   y="312" width="128" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="51"   y="362" width="128" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="51"   y="412" width="128" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="51"   y="92"  width="128" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+            <rect x="51"   y="172" width="128" height="36" rx="5" fill="rgba(107,60,48,0.07)"  stroke="rgba(107,60,48,0.38)"  stroke-width="1.3" filter="url(#rf)"/>
+
+            <!-- ══ TEXT (no displacement — keep readable) ══ -->
+            <text x="690" y="270" text-anchor="middle" font-size="14" font-weight="700" fill="#201a10" font-family="'Noto Serif',serif">Оқытуды</text>
+            <text x="690" y="288" text-anchor="middle" font-size="14" font-weight="700" fill="#201a10" font-family="'Noto Serif',serif">ұйымдастыру</text>
+            <text x="690" y="73"  text-anchor="middle" font-size="11" font-weight="600" fill="#0a3822" font-family="'Noto Sans',sans-serif">Сынып-сабақ</text>
+            <text x="690" y="89"  text-anchor="middle" font-size="11" fill="#0a3822" font-family="'Noto Sans',sans-serif">жүйесі</text>
+            <text x="1069" y="145" text-anchor="middle" font-size="11" font-weight="600" fill="#0a3822" font-family="'Noto Sans',sans-serif">Сабақ</text>
+            <text x="1069" y="161" text-anchor="middle" font-size="11" fill="#0a3822" font-family="'Noto Sans',sans-serif">түрлері</text>
+            <text x="1069" y="375" text-anchor="middle" font-size="11" font-weight="600" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Оқыту</text>
+            <text x="1069" y="391" text-anchor="middle" font-size="11" fill="#3d1a12" font-family="'Noto Sans',sans-serif">формалары</text>
+            <text x="690"  y="469" text-anchor="middle" font-size="11" font-weight="600" fill="#0a3822" font-family="'Noto Sans',sans-serif">АКТ</text>
+            <text x="690"  y="485" text-anchor="middle" font-size="11" fill="#0a3822" font-family="'Noto Sans',sans-serif">технологиялары</text>
+            <text x="311"  y="375" text-anchor="middle" font-size="11" font-weight="600" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Дидактикалық</text>
+            <text x="311"  y="391" text-anchor="middle" font-size="11" fill="#3d1a12" font-family="'Noto Sans',sans-serif">принциптер</text>
+            <text x="311"  y="145" text-anchor="middle" font-size="11" font-weight="600" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Заңнамалық</text>
+            <text x="311"  y="161" text-anchor="middle" font-size="11" fill="#3d1a12" font-family="'Noto Sans',sans-serif">негіз</text>
+
+            <!-- SUB TEXT -->
+            <text x="488"  y="28"  text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">Коменский (1657)</text>
+            <text x="892"  y="28"  text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">35–40 минут</text>
+            <text x="1268" y="106" text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">Жаңа тақырып</text>
+            <text x="1268" y="154" text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">Бекіту</text>
+            <text x="1268" y="202" text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">Аралас сабақ</text>
+            <text x="1268" y="334" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Фронталдық</text>
+            <text x="1268" y="384" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Топтық</text>
+            <text x="1268" y="434" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Жеке / жұптық</text>
+            <text x="468"  y="536" text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">ЖАТ</text>
+            <text x="690"  y="536" text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">Е-оқулық</text>
+            <text x="912"  y="536" text-anchor="middle" font-size="9.5" fill="#0a3822" font-family="'Noto Sans',sans-serif">Smart Board</text>
+            <text x="115"  y="334" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Ғылымилық</text>
+            <text x="115"  y="384" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Белсенділік</text>
+            <text x="115"  y="434" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">Нәтижелілік</text>
+            <text x="115"  y="106" text-anchor="middle" font-size="9"   fill="#3d1a12" font-family="'Noto Sans',sans-serif">«Білім туралы»</text>
+            <text x="115"  y="119" text-anchor="middle" font-size="9"   fill="#3d1a12" font-family="'Noto Sans',sans-serif">Заң, 2007</text>
+            <text x="115"  y="192" text-anchor="middle" font-size="9.5" fill="#3d1a12" font-family="'Noto Sans',sans-serif">МЖББС № 348</text>
+          </svg>
+        </div>
+
+        <div class="source">
+          <strong>Дереккөз:</strong> ҰБА нұсқаулығы, 2023 · ҚР МЖББС № 348, 2022 · Коменский Я.А., 1657
         </div>
       </div>
-      <figure class="slide-figure" aria-hidden="true">
-        <img
-          src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80"
-          width="900" height="1200"
-          alt="Педагогикалық жүйе — кітаптар"
-          loading="lazy" decoding="async" referrerpolicy="no-referrer"
-        />
-        <figcaption class="photo-credit">Педагогикалық жүйе</figcaption>
-      </figure>
     </section>
 
     <!-- ═══════════════════════════════
